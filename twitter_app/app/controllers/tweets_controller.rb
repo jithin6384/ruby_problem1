@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index]
 
   # GET /tweets
   # GET /tweets.json
@@ -23,7 +24,9 @@ class TweetsController < ApplicationController
   end
 
   def show_user
-
+    @followers = []
+   @followers_id = current_user.follows.pluck(:follower_id)
+    @user = User.find(params["format"])
   end
 
   # GET /tweets/1/edit

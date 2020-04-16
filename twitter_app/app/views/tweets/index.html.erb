@@ -30,7 +30,7 @@
   </tbody>
 </table>
 
-<%= link_to"logout", destroy_user_session_path, method: :delete if current_user.present?%>
+
 
 <br>
 
@@ -39,20 +39,20 @@
     <% @followers.each do |follower| %>
      
       <tr>
-        <td><%= follower.username%></td>
+       
         <td><%= link_to follower.username, show_user_path(follower)%></td>
        <br>
               </tr>
     <% end %>
   </tbody>
-</table>
+
 
 <h2>Suggestions to follow </h2>
 <tbody>
     <% @user.each do |user| %>
 <% if @followers_id.exclude?(user.id) %>
       <tr>
-        <td><%= user.username%></td>
+        <td><%= link_to user.username, show_user_path(user)%></td>
         <td><%= link_to 'Follow', follow_path(user) %></td><br>
               </tr>
     <% end %>
@@ -60,4 +60,4 @@
   </tbody>
 </table>
 
-
+<%= link_to"logout", destroy_user_session_path, method: :delete if current_user.present?%>

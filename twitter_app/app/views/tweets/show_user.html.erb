@@ -1,0 +1,16 @@
+
+<% if @followers_id.include?(@user.id) %>
+<tbody>
+    <% @user.tweets.each do |tweet| %>
+     
+      <tr>
+       
+        <td><%= tweet.tweets %></td>
+       <br>
+              </tr>
+      
+    <% end %>
+  </tbody>
+ <% else %>
+       <h2>  you are not a follower, to see tweets by the person please follow them </h2>
+      <% end %>
