@@ -4,8 +4,12 @@ class TweetsController < ApplicationController
   # GET /tweets
   # GET /tweets.json
   def index
+   @followers = []
+   @followers_id = current_user.follows.pluck(:follower_id)
+    @followers_id.map{|follower_id| @followers << User.find_by_id(follower_id)}.flatten
     @tweet = current_user.tweets.build
     @tweets = Tweet.all
+    @user = User.all
   end
 
   # GET /tweets/1
@@ -18,10 +22,23 @@ class TweetsController < ApplicationController
     @tweet = current_user.tweets.build
   end
 
+  def show_user
+
+  end
+
   # GET /tweets/1/edit
   def edit
   end
 
+
+  def follow
+   @follow =  Follow.new
+   @user = User.find_by_id(params[:format])
+   @follow.user_id = current_user.id
+   @follow.follower_id = @user.id
+   @follow.save
+   redirect_to root_path
+  end
   # POST /tweets
   # POST /tweets.json
   def create

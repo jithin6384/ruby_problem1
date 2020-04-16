@@ -20,10 +20,11 @@
   <tbody>
     <% @tweets.each do |tweet| %>
       <tr>
-        <td><%= tweet.tweets %></td>
-        <td><%= link_to 'Show', tweet %></td>
-        <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
-        <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= tweet.tweets %> by <%= tweet.user.try(:username)%> </td>
+
+       
+        <td><%= link_to 'Edit', edit_tweet_path(tweet) if tweet.try(:user_id) == current_user.id %></td>
+        <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } if tweet.try(:user_id) == current_user.id %></td><br>
       </tr>
     <% end %>
   </tbody>
@@ -32,5 +33,31 @@
 <%= link_to"logout", destroy_user_session_path, method: :delete if current_user.present?%>
 
 <br>
+
+<h2>User which you are already following</h2>
+<tbody>
+    <% @followers.each do |follower| %>
+     
+      <tr>
+        <td><%= follower.username%></td>
+        <td><%= link_to follower.username, show_user_path(follower)%></td>
+       <br>
+              </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Suggestions to follow </h2>
+<tbody>
+    <% @user.each do |user| %>
+<% if @followers_id.exclude?(user.id) %>
+      <tr>
+        <td><%= user.username%></td>
+        <td><%= link_to 'Follow', follow_path(user) %></td><br>
+              </tr>
+    <% end %>
+  <%end%>
+  </tbody>
+</table>
 
 
